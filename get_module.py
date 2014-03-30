@@ -1,5 +1,10 @@
+#!/usr/bin/python
+"""
+Utility to get names and/or call features of a python modules
+"""
 import sys
 import argparse
+
 
 def get_args():
     '''
@@ -9,23 +14,31 @@ def get_args():
                                      epilog = "gardenunez")
     subparser = parser.add_subparsers(dest = "action")
     name_parser = subparser.add_parser("names", help = "get function names of the module")
-    run_parser = subparser.add_parser("run", help = "run function name of the module")
+    call_parser = subparser.add_parser("call", help = "call function(s) of the module")
+    call_parser.add_argument("-a" , "--attr", help = "attribute to be called")
+
     
-    args = parser.parser_args()
+    args = parser.parse_args()
     return args
 
 def get_module_names(module):
     """
-    Get the names of the methods of the module
+    Get the names of the functions of the module
     """
     #module = __import__(sys.argv[1])
     for name in dir(module):
         obj = getattr(module, name)
-            if callable(obj):
-                print obj.__name__
+        if callable(obj):
+            print obj.__name__
+
+def call_module_function(module, function_name):
+    """
+    call function of the module
+    """
+    pass
 
 
-def main()
+def main():
     """
     Entry point function
     """
