@@ -12,30 +12,40 @@ def get_args():
     parser = argparse.ArgumentParser(prog = "get_module", 
                                      description = "get info and run module's features",
                                      epilog = "gardenunez")
-    subparser = parser.add_subparsers(dest = "action")
-    name_parser = subparser.add_parser("names", help = "get function names of the module")
-    call_parser = subparser.add_parser("call", help = "call function(s) of the module")
-    call_parser.add_argument("-a" , "--attr", help = "attribute to be called")
-
-    
+    parser.add_argument("-m", "--module" ,
+                        help = "module name", required = True)
+    parser.add_argument("-a", "--attr", help = "attribute to be called")
     args = parser.parse_args()
     return args
 
-def get_module_names(module):
+def get_module_names(module_name):
     """
     Get the names of the functions of the module
     """
-    #module = __import__(sys.argv[1])
+    try:
+        module = __import__(module_name)
+    except ImportError as ie:
+        print ie
+        sys.exit(1)
     for name in dir(module):
         obj = getattr(module, name)
         if callable(obj):
             print obj.__name__
 
-def call_module_function(module, function_name):
+def call_module_function(module_name, function_name):
     """
     call function of the module
     """
-    pass
+    try:
+        module = __import__(module_name)
+    except ImportError as ie:
+        print ie
+        sys.exit(1)
+    for name in dir(module):
+        obj = getattr(module, name)
+        if callable(obj) and obj.__name__ == function_name:
+            return obj()
+
 
 
 def main():
@@ -43,14 +53,15 @@ def main():
     Entry point function
     """
     args = get_args()
+    
+    if args.attr:
+        call_module_function(args.module, args.attr)
+    else:
+        get_module_names(args.module)
+    
+
+
 
 
 if __name__ == "__main__":
     main()
-    
-
-#module = __import__(sys.argv[1])
-#for name in dir(module):
-#   obj = getattr(module, name)
-#   if callable(obj):
-#      print obj.__name__
