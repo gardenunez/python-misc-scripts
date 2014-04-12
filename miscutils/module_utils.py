@@ -28,17 +28,11 @@ def call_mod_function(module_name, callable_function):
     try:
         module = __import__(module_name)
     except ImportError as ie:
-#         print ie
         raise ie
     try:
         function = getattr(module, callable_function)
         if callable(function):
             return function()
     except AttributeError as ae:
-#         print ae
         raise ae
-#     for name in dir(module):
-#         obj = getattr(module, name)
-#         if callable(obj) and obj.__name__ == callable_function:
-#             return obj()
 
