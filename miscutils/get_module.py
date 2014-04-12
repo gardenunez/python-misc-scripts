@@ -2,8 +2,9 @@
 """
 Utility to get names and/or call features of a python modules
 """
-import sys
 import argparse
+
+from module_utils import get_mod_names, call_mod_function
 
 
 def get_args():
@@ -18,35 +19,6 @@ def get_args():
     args = parser.parse_args()
     return args
 
-def get_module_names(module_name):
-    """
-    Get the names of the functions of the module
-    """
-    try:
-        module = __import__(module_name)
-    except ImportError as ie:
-        print ie
-        sys.exit(1)
-    for name in dir(module):
-        obj = getattr(module, name)
-        if callable(obj):
-            print obj.__name__
-
-def call_module_function(module_name, function_name):
-    """
-    call function of the module
-    """
-    try:
-        module = __import__(module_name)
-    except ImportError as ie:
-        print ie
-        sys.exit(1)
-    for name in dir(module):
-        obj = getattr(module, name)
-        if callable(obj) and obj.__name__ == function_name:
-            return obj()
-
-
 
 def main():
     """
@@ -55,13 +27,12 @@ def main():
     args = get_args()
     
     if args.attr:
-        call_module_function(args.module, args.attr)
+        call_mod_function(args.module, args.attr)
     else:
-        get_module_names(args.module)
+        names = get_mod_names(args.module)
+        for n in names:
+            print n
     
-
-
-
 
 if __name__ == "__main__":
     main()
