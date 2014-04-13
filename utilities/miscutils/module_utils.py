@@ -8,17 +8,13 @@ Python modules utility
 def get_mod_names(module_name):
     """
     Get the names of the functions of the module
+    TODO: include fromlist argument ( look at fromlist arg in __import__)
     """
     try:
         module = __import__(module_name)
     except ImportError as ie:
-#         print ie
         raise ie
     names = [a for a in dir(module) if callable(getattr(module, a))]
-#     for name in dir(module):
-#         obj = getattr(module, name)
-#         if callable(obj):
-#             callable_attrs.append(obj.__name__)
     return names
 
 def call_mod_function(module_name, callable_function):

@@ -25,8 +25,10 @@ class TestModuleUtils(unittest.TestCase):
     def test_get_mod_names_valid(self):
         """
         """
-        names = get_mod_names("module_utils")
-        self.assertListEqual(names, ['call_mod_function', 'get_mod_names'], "Invalid result")
+        names = get_mod_names("os")
+        self.assertIsNotNone(names, "None result")
+        self.assertIsInstance(names, list, "Is not a list")
+        self.assertGreater(len(names), 0, "List has not elements")
     
     def test_call_mod_function_invalid_mod_name(self):
         """
@@ -36,13 +38,14 @@ class TestModuleUtils(unittest.TestCase):
     def test_call_mod_function_invalid_function_name(self):
         """
         """
-        self.assertRaises(AttributeError, call_mod_function, "module_utils", "function_name")
+        self.assertRaises(AttributeError, call_mod_function, "os", "function_name")
     
     def test_call_mod_function_valid(self):
         """
         """
         res = call_mod_function("sys", "getdefaultencoding")
         self.assertIsNotNone(res, "None result")
+        self.assertIsInstance(res, str, "Result should be string")
      
 if __name__ == "__main__":
     unittest.main()
