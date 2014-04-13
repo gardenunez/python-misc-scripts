@@ -4,7 +4,7 @@ Utility to get names and/or call features of a python modules
 """
 import argparse
 
-from module_utils import get_mod_names, call_mod_function
+from utilities.miscutils.module_utils import get_mod_names, call_mod_function
 
 
 def get_args():

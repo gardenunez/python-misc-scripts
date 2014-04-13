@@ -4,7 +4,7 @@ Tests for get_module
 """
 import unittest
 
-from module_utils import get_mod_names, call_mod_function
+from utilities.miscutils.module_utils import get_mod_names, call_mod_function
 
 
 class TestModuleUtils(unittest.TestCase):
