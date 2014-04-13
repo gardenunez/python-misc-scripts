@@ -5,11 +5,38 @@ File and directory utilities
 '''
 import os
 
-def rmdir_recursive(dirs, exclude=[], verbose=False):
+
+def remove_dir(root_dir, dir_name="", recursive=False, verbose=False):
     """
-    TODO
+    Remove all dir_name directories in root_dir
     """
-    pass
+    for root, dirs, files in os.walk(root_dir):
+        if dir_name in dirs:
+            rmdir_recursive(os.path.join(root, dir_name))
+
+
+def rmdir_recursive(root, exclude=[], verbose=False):
+    """
+    Remove a directory and sub-directories recursively.
+    """
+    for name in os.listdir(root):
+        if name in exclude:
+            continue
+        full_name = os.path.join(root, name)
+        # on Windows, if we don't have write permission we can't remove
+        # the file/directory, so we turn that on
+        if not os.access(full_name, os.W_OK):
+            os.chmod(full_name, 0600)
+        if os.path.isdir(full_name):
+            rmdir_recursive(full_name)
+        else:
+            os.remove(full_name)
+            if verbose:
+                print '[DONE] remove %s'%full_name
+    
+    os.rmdir(dir)
+    if verbose:
+        print '[DONE] remove %s'%dir
 
 def remove_files(dirs, exclude=[]):
     '''
