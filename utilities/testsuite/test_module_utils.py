@@ -1,6 +1,7 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 """
-Tests for get_module
+Tests for module utils
 """
 import unittest
 
