@@ -19,10 +19,16 @@ class TestFileUtils(unittest.TestCase):
         self.invalid_dir = '/unexistent'
 
     def test_check_dirs_true(self):
+        """
+        Check valid directories
+        """
         result = file_utils.check_dirs(self.valid_dirs)
         self.assertTrue(result)
 
     def test_check_dirs_false(self):
+        """
+        Check result when invalid dirs
+        """
         result = file_utils.check_dirs([self.valid_dirs[0], self.invalid_dir])
         self.assertFalse(result)
 
